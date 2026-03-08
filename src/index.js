@@ -2,9 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
 
-const index = express();
-index.use(cors());
-index.use(express.json());
+const app = express();
+app.use(cors());
+app.use(express.json());
 
 // Database connection
 const pool = new Pool({
@@ -12,16 +12,16 @@ const pool = new Pool({
     database: process.env.DB_NAME || 'ecommerce',
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || 'password',
-    port: 5432,
+    port: parseInt(process.env.DB_PORT, 10) || 5432,
 });
 
 // Health check
-index.get('/health', (req, res) => {
+app.get('/health', (req, res) => {
     res.status(200).send('OK');
 });
 
 // Get all products
-index.get('/products', async (req, res) => {
+app.get('/products', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM products');
         res.json(result.rows);
@@ -32,7 +32,7 @@ index.get('/products', async (req, res) => {
 });
 
 // Get single product
-index.get('/products/:id', async (req, res) => {
+app.get('/products/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const result = await pool.query('SELECT * FROM products WHERE id = $1', [id]);
@@ -47,7 +47,7 @@ index.get('/products/:id', async (req, res) => {
 });
 
 // Create product
-index.post('/products', async (req, res) => {
+app.post('/products', async (req, res) => {
     try {
         const { name, price, description } = req.body;
         const result = await pool.query(
@@ -62,6 +62,6 @@ index.post('/products', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-index.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Product service running on port ${PORT}`);
 });
