@@ -41,21 +41,4 @@ npm start
 | `DB_USER`     | `postgres`  |
 | `DB_PASSWORD` | `password`  |
 
-## Available Scripts
 
-| Script      | Description             |
-|-------------|-------------------------|
-| `npm start` | Start the service       |
-| `npm test`  | Run tests with Jest     |
-
-## Folder Structure
-
-```
-devops-product-service/
-├── src/
-│   └── index.js        # Express app and route handlers
-├── .env.example        # Environment variable template
-├── .gitignore
-├── package.json
-└── README.md
-```
