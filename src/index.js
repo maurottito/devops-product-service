@@ -20,6 +20,15 @@ app.get('/health', (req, res) => {
     res.status(200).send('OK');
 });
 
+// Version endpoint — returns service version info
+app.get('/version', (req, res) => {
+    res.status(200).json({
+        service: 'product-service',
+        version: '1.0.5',
+        description: 'E-Commerce Product Service'
+    });
+});
+
 // Get all products
 app.get('/products', async (req, res) => {
     try {
